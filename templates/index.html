@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Selector</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <h1>Welcome to Stock Selector</h1>
+
+    <form method="POST" action="/">
+        <label for="company">Select Company:</label>
+        <select name="company" id="company" required>
+            <option value="">-- Choose a company --</option>
+            {% for stock in stocks %}
+                <option value="{{ stock.name }}" {% if stock.name == selected_company %}selected{% endif %}>
+                    {{ stock.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <label for="shares">Number of Shares:</label>
+        <input type="number" name="shares" id="shares" min="1" required value="{{ shares if shares else '' }}">
+
+        <br><br>
+        <button type="submit">Calculate</button>
+    </form>
+
+    {% if total_cost is not none %}
+    <h2>Total Cost: ${{ "%.2f"|format(total_cost) }}</h2>
+    {% endif %}
+
+</body>
+</html>
